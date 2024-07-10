@@ -35,16 +35,42 @@ describe('first test in the Automation Exercise', () =>{
   //   //     .visit("https://www.automationexercise.com/").wait(5000)
   //   //   })
   // })
-  it('test the category', () =>{
-    cy.get(".left-sidebar")
-      .find("div>div>div>h4>a").each(($a) =>{
-        cy.wrap($a).click().should("have.class", '')
-        cy.get(".left-sidebar")
-          .find("div>div>div>div>ul>li>a").each(($a) =>{
-            cy.wrap($a).click()
-          })
-
-        // Make a loop that verifies every category, if the new web is right one
+  // it('test the category', () =>{
+  //   cy.get(".left-sidebar")
+  //     .find("div>div>div>h4>a").eq(0)
+  //       .click().should("have.class", '')
+        
+  //       cy.get("#Women")
+  //         .find("div>ul>li>a").each(($a) =>{
+  //           cy.wrap($a).should('be.visible')
+  //         })
+  //   cy.get(".left-sidebar")
+  //     .find("div>div>div>h4>a").eq(1)
+  //       .click().should("have.class", '')
+      
+  //       cy.get("#Men")
+  //         .find("div>ul>li>a").each(($a) =>{
+  //           cy.wrap($a).should('be.visible')
+  //         })
+  //   cy.get(".left-sidebar")
+  //     .find("div>div>div>h4>a").eq(2)
+  //       .click().should("have.class", '')
+      
+  //       cy.get("#Kids")
+  //         .find("div>ul>li>a").each(($a) =>{
+  //           cy.wrap($a).should('be.visible')
+  //         })
+  //       // Make a loop that verifies every category, if the new web is right one
+  // })
+  it('test the site', () =>{
+    const page = ['category_products/1', 'category_products/2', 'category_products/7']
+      cy.get(".panel-title").find("a").eq(0).click()
+      cy.get(".panel-body").find("ul>li>a").each(($a)=>{
+        cy.wrap(page).each(($page) =>{
+          cy.wrap($a)
+            .should('have.attr', 'href', `/${$page}`)
+            // failing the loop because the list tries to loop intirely in the same 'a'
+        })
       })
-  })
+    })
 })
