@@ -1,6 +1,6 @@
 describe('first test in the Automation Exercise', () =>{
   beforeEach(() =>{
-    cy.visit("https://www.automationexercise.com/")
+    cy.visit("/")
   })
 
   // it('it test the slider-carousel', () =>{
@@ -63,13 +63,17 @@ describe('first test in the Automation Exercise', () =>{
   //       // Make a loop that verifies every category, if the new web is right one
   // })
   it('test the site', () =>{
-    const page = ['category_products/1', 'category_products/2', 'category_products/7']
-      cy.get(".panel-title").find("a").eq(0).click()
-      cy.get(".panel-body").find("ul>li>a").each(($a)=>{
-        cy.wrap(page).each(($page) =>{
-          cy.wrap($a)
-            .should('have.attr', 'href', `/${$page}`)
-            // failing the loop because the list tries to loop intirely in the same 'a'
+    // it makes sure if the all the tags link to the right site
+    // the test is passing three times, change it later to make it pass just one for all and see if they are visible
+    const page = ['/category_products/1', '/category_products/2', '/category_products/7',
+       '/category_products/3', '/category_products/6', '/category_products/4', '/category_products/5']
+      cy.get('.left-sidebar').find('#accordian').each(($div, index)=>{
+        cy.wrap($div, index).find('div>div>h4>a').each(($a)=>{
+          cy.wrap($a).click()
+            cy.get('.left-sidebar>div').get('.panel-collapse').find('div>ul>li>a').each(($a, index)=>{
+              cy.wrap($a)
+                .should('have.attr', 'href', `${page[index]}`)
+            })
         })
       })
     })
